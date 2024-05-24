@@ -17,7 +17,7 @@ export default function MenuBar() {
           <div
             className="relative"
             onClick={() => {
-              redirect(`/${store.Category}`);
+              redirect(`/${store.cateogry}`);
             }}
           >
             <span className="text-[0.8rem] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-35%]">

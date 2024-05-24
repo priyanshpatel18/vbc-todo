@@ -2,9 +2,12 @@ import MenuBar from "../components/MenuBar";
 import NavBar from "../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Store } from "../store/store";
 
 export default function BrowsePage() {
   const redirect = useNavigate();
+  const store = Store();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -24,6 +27,7 @@ export default function BrowsePage() {
           <div
             className="h-full w-full cursor-pointer rounded-lg border-2 border-[#000] flex items-center justify-center"
             onClick={() => {
+              store.setCategory("personal");
               redirect("/personal");
             }}
           >
@@ -34,6 +38,7 @@ export default function BrowsePage() {
           <div
             className="h-full w-full cursor-pointer rounded-lg border-2 border-[#000] flex items-center justify-center"
             onClick={() => {
+              store.setCategory("work");
               redirect("/work");
             }}
           >
@@ -44,6 +49,7 @@ export default function BrowsePage() {
           <div
             className="h-full w-full cursor-pointer rounded-lg border-2 border-[#000] flex items-center justify-center"
             onClick={() => {
+              store.setCategory("education");
               redirect("/education");
             }}
           >

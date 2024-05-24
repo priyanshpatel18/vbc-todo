@@ -8,22 +8,22 @@ import BrowsePage from "./pages/BrowsePage";
 import AddToggle from "./components/AddToggle";
 import SearchPage from "./pages/SearchPage";
 export default function App() {
-    return (
-        <div>
-            <AddToggle />
+  return (
+    <div>
+      <AddToggle />
 
-            <Routes>
-                <Route element={<LandingPage />} path="/" />
-                <Route element={<HomePage />} path="/personal" />
-                <Route element={<HomePage />} path="/work" />
-                <Route element={<HomePage />} path="/education" />
-                <Route element={<ProfilePage />} path="/profile" />
-                <Route element={<BrowsePage />} path="/browse" />
-                <Route element={<SearchPage />} path="/search"></Route>
+      <Routes>
+        <Route element={<LandingPage />} path="/" />
+        <Route element={<HomePage />} path="/personal" />
+        <Route element={<HomePage />} path="/work" />
+        <Route element={<HomePage />} path="/education" />
+        <Route element={<ProfilePage />} path="/profile" />
+        <Route element={<BrowsePage />} path="/browse" />
+        <Route element={<SearchPage />} path="/search"></Route>
 
-                <Route element={<LoginPage />} path="/login" />
-                <Route element={<RegisterPage />} path="/register" />
-            </Routes>
-        </div>
-    );
+        <Route element={<LoginPage />} path="/login" />
+        <Route element={<RegisterPage />} path="/register" />
+      </Routes>
+    </div>
+  );
 }
