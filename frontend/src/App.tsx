@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import BrowsePage from "./pages/BrowsePage";
 import AddToggle from "./components/AddToggle";
 import SearchPage from "./pages/SearchPage";
+
 export default function App() {
   return (
     <div>

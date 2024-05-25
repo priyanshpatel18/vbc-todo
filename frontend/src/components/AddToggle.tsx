@@ -21,6 +21,7 @@ export default function AddToggle() {
       controls.start("hidden");
     }
   }, [store.isOpen, controls]);
+
   return (
     <motion.div
       initial="hidden"
@@ -32,32 +33,28 @@ export default function AddToggle() {
       dragConstraints={{ top: 0, bottom: 0 }}
       onDragEnd={(event, info) => {
         if (info.offset.y > 50) {
-          store.setIsOpen(false); // Assuming setIsOpen is a method to update isOpen in your store
+          store.setIsOpen(false);
         }
       }}
       className={`${
         store.isOpen ? "visible" : "hidden"
-      } poppins-medium z-[1111] absolute bottom-0 bg-white h-[50%] w-[100%] rounded-t-2xl border-black border-2`}
+      } z-[10] bg-[#F5F3F4] absolute bottom-0 rounded-t-2xl border-black border-2 p-[2rem] w-full flex flex-col gap-[1.5rem]`}
     >
-      <div className="h-[20%] w-[100%] flex justify-center items-center ">
-        <input
-          type="text"
-          placeholder="Task Name"
-          className="w-[90%] h-[80%] outline-none text-xl"
-        />
-      </div>
-      <div className="h-[20%] w-[100%] flex justify-center items-center ">
-        <input
-          type="textarea"
-          placeholder="Description"
-          className="w-[90%] h-[80%] outline-none"
-        />
-      </div>
+      <input
+        type="text"
+        placeholder="Enter Title"
+        className="w-full outline-none text-[1.2rem] border-2 border-[#000] py-[0.8rem] px-[1rem] rounded-lg"
+      />
+      <textarea
+        placeholder="Enter Description"
+        rows={3}
+        className="w-full outline-none text-[1.2rem] border-2 border-[#000] py-[0.8rem] px-[1rem] rounded-lg"
+      />
 
-      <div className="h-[20%] w-[100%] flex justify-around items-center  ">
+      <div className="grid grid-cols-3 gap-[0.5rem]">
         <button
           onClick={() => handleDateSelection("today")}
-          className={`border-black border-[1px] shadow-xl rounded-xl p-1 ${
+          className={`border-black border-[1px] shadow-lg rounded-lg p-[0.7rem] ${
             selectedDate === "today" ? "bg-black text-white" : ""
           }`}
         >
@@ -65,23 +62,28 @@ export default function AddToggle() {
         </button>
         <button
           onClick={() => handleDateSelection("tomorrow")}
-          className={`border-black border-[1px] shadow-xl rounded-xl p-1 ${
+          className={`border-black border-[1px] shadow-lg rounded-lg p-[0.7rem] ${
             selectedDate === "tomorrow" ? "bg-black text-white" : ""
           }`}
         >
           Tomorrow
         </button>
-        <input
-          className={`bg-white border-[1px] outline-none border-black rounded-xl p-1 ${
-            selectedDate === "date" ? "bg-black text-white" : ""
-          }`}
-          type="date"
-          value={selectedDate == "date" ? "" : selectedDate}
-          onChange={(e) => handleDateSelection(e.target.value)}
-        />
+        <label htmlFor="calendar" className="w-full">
+          <input
+            className={`w-full bg-white border-[1px] outline-none border-black rounded-lg p-[0.7rem] ${
+              selectedDate === "date" ? "bg-black text-white" : ""
+            }`}
+            type="date"
+            value={selectedDate === "date" ? "" : selectedDate}
+            onChange={(e) => handleDateSelection(e.target.value)}
+            id="calendar"
+          />
+        </label>
       </div>
-      <div className="h-[20%] w-[100%] flex justify-center items-center  ">
-        <button className="bg-black text-white p-3 rounded-xl">Add</button>
+      <div className="flex justify-center items-center">
+        <button className="bg-black text-white p-[1rem] rounded-lg">
+          Add Task
+        </button>
       </div>
     </motion.div>
   );

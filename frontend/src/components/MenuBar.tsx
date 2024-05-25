@@ -13,7 +13,7 @@ export default function MenuBar() {
   return (
     <div className=" relative w-full h-[10vh] p-[1.2rem] flex justify-between items-center font-bold bg-[f6dfdf] border-t-2 border-[#000] rounded-t-lg">
       <div className="w-[35%] flex justify-between items-center">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center cursor-pointer">
           <div
             className="relative"
             onClick={() => {
@@ -32,7 +32,7 @@ export default function MenuBar() {
           <span>Today</span>
         </div>
         <div
-          className="flex flex-col items-center"
+          className="flex flex-col items-center cursor-pointer"
           onClick={() => {
             redirect("/search");
           }}
@@ -42,7 +42,7 @@ export default function MenuBar() {
         </div>
       </div>
 
-      <div className="bg-[#F5F3F4] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-120%] border-[3px] border-[#000] rounded-full p-[1rem]">
+      <div className="bg-[#F5F3F4] cursor-pointer absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-120%] border-[3px] border-[#000] rounded-full p-[1rem]">
         <img
           onClick={() => store.setIsOpen(!store.isOpen)}
           src={plus}
@@ -53,7 +53,7 @@ export default function MenuBar() {
 
       <div className="w-[35%] flex justify-between items-center">
         <div
-          className="flex flex-col items-center"
+          className="flex flex-col items-center cursor-pointer"
           onClick={() => {
             redirect("/browse");
           }}
@@ -62,7 +62,7 @@ export default function MenuBar() {
           <span>Browse</span>
         </div>
         <div
-          className="flex flex-col items-center"
+          className="flex flex-col items-center cursor-pointer"
           onClick={() => {
             redirect("/profile");
           }}

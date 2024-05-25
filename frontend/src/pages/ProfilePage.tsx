@@ -15,7 +15,7 @@ export default function ProfilePage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col h-[100dvh] bg-[#F5F3F4]"
+      className="flex flex-col h-[100vh] bg-[#F5F3F4]"
     >
       <NavBar />
       <div className="flex flex-col gap-[1.5rem] flex-1 p-[1.5rem]">
