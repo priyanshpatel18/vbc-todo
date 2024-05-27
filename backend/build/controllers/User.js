@@ -42,8 +42,6 @@ export const registerUser = async (req, res) => {
         if (!user) {
             return res.status(500).json({ message: "Internal server error" });
         }
-        const token = generateJWT({ id: user._id });
-        res.cookie("token", token, { httpOnly: true });
         res.status(201).json({ message: "Registered successfully" });
     }
     catch (error) {
@@ -68,7 +66,7 @@ export const loginUser = async (req, res) => {
         const token = generateJWT({ id: userExists._id });
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            sameSite: "none",
             secure: process.env.NODE_ENV === "production",
         });
         res.status(200).json({ message: "Login successfully" });

@@ -44,7 +44,7 @@ export default function RegisterPage() {
       await apiClient
         .post("/user/register", verifiedUser)
         .then((res) => {
-          redirect("/");
+          redirect("/login");
           toast.success(res.data.message);
         })
         .catch((err) => {

@@ -38,7 +38,7 @@ export default function SearchPage() {
           </div>
         </label>
       </div>
-      <MenuBar />
+      <MenuBar className="w-full fixed bottom-0 z-[1]" />
     </motion.div>
   );
 }

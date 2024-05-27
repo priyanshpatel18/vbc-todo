@@ -166,7 +166,7 @@ export default function ProfilePage() {
           </span>
         </button>
       </div>
-      <MenuBar />
+      <MenuBar className="w-full fixed bottom-0 z-[1]" />
     </motion.div>
   );
 }

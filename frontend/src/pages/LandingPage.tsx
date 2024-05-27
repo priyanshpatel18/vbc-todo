@@ -17,7 +17,7 @@ export default function LandingPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col h-screen w-full bg-[#F5F3F4]"
+      className="flex flex-col h-[100vh] w-full bg-[#F5F3F4]"
     >
       <NavBar />
       <div className="flex flex-col flex-1">

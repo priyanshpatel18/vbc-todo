@@ -40,7 +40,6 @@ export const updateTodo = async (req, res) => {
     try {
         const { todoId } = req.params;
         const { title, description, status } = req.body;
-        console.log(todoId);
         const updateData = {};
         if (title)
             updateData.title = title;

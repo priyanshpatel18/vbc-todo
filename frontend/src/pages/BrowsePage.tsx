@@ -59,7 +59,7 @@ export default function BrowsePage() {
           </div>
         </div>
       </div>
-      <MenuBar />
+      <MenuBar className="w-full fixed bottom-0 z-[1]" />
     </motion.div>
   );
 }

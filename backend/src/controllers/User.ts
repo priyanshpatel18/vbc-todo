@@ -47,13 +47,9 @@ export const registerUser = async (req: Request, res: Response) => {
       email,
       password: await hash(password, await genSalt(10)),
     });
-
     if (!user) {
       return res.status(500).json({ message: "Internal server error" });
     }
-
-    const token = generateJWT({ id: user._id });
-    res.cookie("token", token, { httpOnly: true });
 
     res.status(201).json({ message: "Registered successfully" });
   } catch (error) {
