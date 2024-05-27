@@ -82,7 +82,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const token = generateJWT({ id: userExists._id });
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       secure: process.env.NODE_ENV === "production",
     });
     res.status(200).json({ message: "Login successfully" });
