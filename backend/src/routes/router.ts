@@ -7,7 +7,7 @@ export const todoRouter = express.Router();
 todoRouter
   .get("/", allowAuthenticated, todoController.getTodos)
   .post("/", allowAuthenticated, todoController.createTodo)
-  .put("/", allowAuthenticated, todoController.updateTodo)
+  .patch("/:todoId", allowAuthenticated, todoController.updateTodo)
   .delete("/", allowAuthenticated, todoController.deleteTodo);
 
 export const userRouter = express.Router();
@@ -17,4 +17,4 @@ userRouter
   .post("/register", userController.registerUser)
   .post("/logout", userController.logoutUser)
   .delete("/", allowAuthenticated, userController.deleteUser)
-  .patch("/:todoId", allowAuthenticated, userController.updateUser);
+  .put("/", allowAuthenticated, userController.updateUser);

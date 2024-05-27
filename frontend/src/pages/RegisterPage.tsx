@@ -1,13 +1,14 @@
 import { isAxiosError } from "axios";
+import { motion } from "framer-motion";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { ZodError } from "zod";
 import apiClient from "../apiClient/apiClient";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { registerSchema } from "../schemas/schema";
 import { Store } from "../store/store";
-import { toast } from "sonner";
 
 export default function RegisterPage() {
   const [displayName, setDisplayName] = useState("");
@@ -68,50 +69,57 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center gap-[1rem] p-[2rem]">
-      <h2 className="uppercase tracking-[0.3rem] text-[0.9rem]">register</h2>
-      <h1 className="capitalize text-[2rem] font-semibold text-center">
-        create your account
-      </h1>
-      <form
-        onSubmit={handleRegister}
-        className="flex flex-col gap-[1rem] w-full lg:w-1/2"
-      >
-        <Input
-          type="text"
-          name="displayName"
-          value={displayName}
-          setValue={setDisplayName}
-          placeholder="Enter Name"
-        />
-        <Input
-          type="email"
-          name="email"
-          value={email}
-          setValue={setEmail}
-          placeholder="Enter Email"
-        />
-        <Input
-          type="password"
-          name="password"
-          value={password}
-          setValue={setPassword}
-          placeholder="••••••••"
-        />
-        <Button buttonText="register" />
-      </form>
-      <p className="text-[1.1rem]">
-        <span>Already have an account? </span>
-        <button
-          disabled={store.isLoading}
-          onClick={() => {
-            redirect("/login");
-          }}
-          className="cursor-pointer text-blue-600 hover:text-blue-800"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex flex-col h-[100vh] w-full bg-[#F5F3F4]"
+    >
+      <div className="h-screen w-full flex flex-col items-center justify-center gap-[1rem] p-[2rem]">
+        <h2 className="uppercase tracking-[0.3rem] text-[0.9rem]">register</h2>
+        <h1 className="capitalize text-[2rem] font-semibold text-center">
+          create your account
+        </h1>
+        <form
+          onSubmit={handleRegister}
+          className="flex flex-col gap-[1rem] w-full lg:w-1/2"
         >
-          Login Now
-        </button>
-      </p>
-    </div>
+          <Input
+            type="text"
+            name="displayName"
+            value={displayName}
+            setValue={setDisplayName}
+            placeholder="Enter Name"
+          />
+          <Input
+            type="email"
+            name="email"
+            value={email}
+            setValue={setEmail}
+            placeholder="Enter Email"
+          />
+          <Input
+            type="password"
+            name="password"
+            value={password}
+            setValue={setPassword}
+            placeholder="••••••••"
+          />
+          <Button buttonText="register" />
+        </form>
+        <p className="text-[1.1rem]">
+          <span>Already have an account? </span>
+          <button
+            disabled={store.isLoading}
+            onClick={() => {
+              redirect("/login");
+            }}
+            className="cursor-pointer text-blue-600 hover:text-blue-800"
+          >
+            Login Now
+          </button>
+        </p>
+      </div>
+    </motion.div>
   );
 }

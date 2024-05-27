@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import MenuBar from "../components/MenuBar";
 import NavBar from "../components/NavBar";
 import TodoComponent from "../components/Todo";
 import { Store, Todo } from "../store/store";
 
 export default function HomePage() {
-  const redirect = useNavigate();
   const store = Store();
   const location = useLocation();
   const [todayTasks, setTodayTasks] = useState<Todo[] | []>([]);
@@ -15,7 +14,6 @@ export default function HomePage() {
 
   useEffect(() => {
     store.setCategory(location.pathname.replace("/", ""));
-    store.getUser(redirect, "/login");
     const todayDate = new Date();
 
     const filteredTodayTasks = store.todos.filter((todo) => {
@@ -50,7 +48,7 @@ export default function HomePage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col bg-[#F5F3F4] h-[100vh] "
+      className="flex flex-col h-[100vh] w-full bg-[#F5F3F4]"
     >
       <NavBar />
       <div className="flex flex-col flex-1 p-[1.5rem] overflow-hidden">

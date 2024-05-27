@@ -13,7 +13,7 @@ export default function BrowsePage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col bg-[#F5F3F4] h-[100vh]"
+      className="flex flex-col h-[100vh] w-full bg-[#F5F3F4]"
     >
       <NavBar />
       <div className="flex flex-col gap-[1rem] flex-1 p-[1.5rem]">
