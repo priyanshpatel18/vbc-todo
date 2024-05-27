@@ -91,11 +91,12 @@ export default function AddToggle() {
       onDragEnd={(event, info) => {
         if (info.offset.y > 50) {
           store.setIsOpen(false);
+        } else {
+          console.log(event);
         }
       }}
-      className={`${
-        store.isOpen ? "visible" : "hidden"
-      } z-[10] bg-[#F5F3F4] absolute bottom-0 rounded-t-2xl border-black border-2 p-[2rem]`}
+      className={`${store.isOpen ? "visible" : "hidden"
+        } z-[10] bg-[#F5F3F4] absolute bottom-0 rounded-t-2xl border-black border-2 p-[2rem]`}
     >
       <form
         className="w-full flex flex-col gap-[1.5rem]"
@@ -125,25 +126,22 @@ export default function AddToggle() {
             onClick={() => {
               handleDateSelection("today");
             }}
-            className={`border-black border-[1px] shadow-lg rounded-lg p-[0.7rem] text-center ${
-              selectedDate === "today" ? "bg-black text-white" : ""
-            }`}
+            className={`border-black border-[1px] shadow-lg rounded-lg p-[0.7rem] text-center ${selectedDate === "today" ? "bg-black text-white" : ""
+              }`}
           >
             Today
           </div>
           <div
             onClick={() => handleDateSelection("tomorrow")}
-            className={`border-black border-[1px] shadow-lg rounded-lg p-[0.7rem] text-center ${
-              selectedDate === "tomorrow" ? "bg-black text-white" : ""
-            }`}
+            className={`border-black border-[1px] shadow-lg rounded-lg p-[0.7rem] text-center ${selectedDate === "tomorrow" ? "bg-black text-white" : ""
+              }`}
           >
             Tomorrow
           </div>
           <label htmlFor="calendar" className="w-full">
             <input
-              className={`w-full bg-white border-[1px] outline-none border-black rounded-lg p-[0.7rem] ${
-                selectedDate === "date" ? "bg-black text-white" : ""
-              }`}
+              className={`w-full bg-white border-[1px] outline-none border-black rounded-lg p-[0.7rem] ${selectedDate === "date" ? "bg-black text-white" : ""
+                }`}
               type="date"
               value={selectedDate === "date" ? "" : selectedDate}
               onChange={(e) => handleDateSelection(e.target.value)}
