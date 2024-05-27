@@ -1,10 +1,21 @@
 import { compare, genSalt, hash } from "bcrypt";
-import { generateJWT } from "../lib/auth.js";
+import { generateJWT, verifyJWT } from "../lib/auth.js";
 import Todo from "../model/Todo.js";
 import User from "../model/User.js";
 export const getUser = async (req, res) => {
     try {
-        const user = req.user;
+        const token = req.cookies["token"];
+        if (!token) {
+            return res.status(200).json(null);
+        }
+        const decoded = verifyJWT(token);
+        if (!decoded || typeof decoded !== "object") {
+            return res.status(200).json(null);
+        }
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(200).json(null);
+        }
         res.status(200).json(user);
     }
     catch (error) {
@@ -14,6 +25,7 @@ export const getUser = async (req, res) => {
 };
 export const registerUser = async (req, res) => {
     const { displayName, email, password } = req.body;
+    console.log(req.body);
     if (!displayName || !email || !password) {
         return res.status(400).json({ message: "Invalid Credentials" });
     }
@@ -32,7 +44,7 @@ export const registerUser = async (req, res) => {
         }
         const token = generateJWT({ id: user._id });
         res.cookie("token", token, { httpOnly: true });
-        res.status(201).json({ message: "User created successfully" });
+        res.status(201).json({ message: "Registered successfully" });
     }
     catch (error) {
         console.log(error);
@@ -55,9 +67,9 @@ export const loginUser = async (req, res) => {
         }
         const token = generateJWT({ id: userExists._id });
         res.cookie("token", token, {
-        // httpOnly: true,
-        // sameSite: "none",
-        // secure: process.env.NODE_ENV === "production",
+            httpOnly: true,
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            secure: process.env.NODE_ENV === "production",
         });
         res.status(200).json({ message: "Login successfully" });
     }
@@ -71,14 +83,21 @@ export const logoutUser = async (req, res) => {
     res.status(200).json({ message: "Logout successfully" });
 };
 export const updateUser = async (req, res) => {
-    const { name } = req.body;
+    const { email, displayName } = req.body;
     const user = req.user;
     try {
-        const updatedUser = await User.findByIdAndUpdate(user._id, { name });
-        if (!updatedUser) {
-            return res.status(500).json({ message: "User not found" });
+        const userExists = await User.findOne({ email });
+        if (userExists && userExists._id.toString() !== user._id.toString()) {
+            return res.status(409).json({ message: "Email should be unique" });
         }
-        res.status(200).json({ message: "User updated successfully" });
+        const updatedUser = await User.findByIdAndUpdate(user._id, {
+            displayName,
+            email,
+        });
+        if (!updatedUser) {
+            return res.status(500).json({ message: "User not updated" });
+        }
+        res.status(200).json({ message: "Updated successfully" });
     }
     catch (error) {
         console.log(error);
@@ -94,7 +113,7 @@ export const deleteUser = async (req, res) => {
         }
         await User.findByIdAndDelete(user._id);
         res.clearCookie("token");
-        res.status(200).json({ message: "User deleted successfully" });
+        res.status(200).json({ message: "Deleted successfully" });
     }
     catch (error) {
         console.log(error);

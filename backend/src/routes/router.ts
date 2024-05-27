@@ -6,15 +6,15 @@ import allowAuthenticated from "../middlewares/authenticateUser.js";
 export const todoRouter = express.Router();
 todoRouter
   .get("/", allowAuthenticated, todoController.getTodos)
-  .post("/create", allowAuthenticated, todoController.createTodo)
-  .put("/update", allowAuthenticated, todoController.updateTodo)
-  .delete("/delete", allowAuthenticated, todoController.deleteTodo);
+  .post("/", allowAuthenticated, todoController.createTodo)
+  .put("/", allowAuthenticated, todoController.updateTodo)
+  .delete("/", allowAuthenticated, todoController.deleteTodo);
 
 export const userRouter = express.Router();
 userRouter
-  .get("/", allowAuthenticated, userController.getUser)
+  .get("/", userController.getUser)
   .post("/login", userController.loginUser)
   .post("/register", userController.registerUser)
   .post("/logout", userController.logoutUser)
-  .put("/update", allowAuthenticated, userController.updateUser)
-  .delete("/delete", allowAuthenticated, userController.deleteUser);
+  .delete("/", allowAuthenticated, userController.deleteUser)
+  .patch("/:todoId", allowAuthenticated, userController.updateUser);

@@ -6,7 +6,7 @@ interface todoInterface {
   description: string;
   status: string;
   workspaceName: string;
-  createdAt: Date;
+  dueDate: Date;
 }
 
 const TodoSchema = new Schema<todoInterface>({
@@ -38,9 +38,9 @@ const TodoSchema = new Schema<todoInterface>({
       message: "Invalid status",
     },
   },
-  createdAt: {
+  dueDate: {
     type: Date,
-    default: Date.now(),
+    required: true,
   },
 });
 

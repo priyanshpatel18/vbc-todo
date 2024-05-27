@@ -7,12 +7,13 @@ import RegisterPage from "./pages/RegisterPage";
 import BrowsePage from "./pages/BrowsePage";
 import AddToggle from "./components/AddToggle";
 import SearchPage from "./pages/SearchPage";
+import Toaster from "./components/Sonner";
 
 export default function App() {
   return (
     <div>
+      <Toaster richColors position="top-center" />
       <AddToggle />
-
       <Routes>
         <Route element={<LandingPage />} path="/" />
         <Route element={<HomePage />} path="/personal" />

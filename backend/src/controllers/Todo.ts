@@ -4,8 +4,8 @@ import { Request, Response } from "express";
 
 export const createTodo = async (req: Request, res: Response) => {
   try {
-    const { title, description, workspaceName } = req.body;
-    if (!title || !description || !workspaceName) {
+    const { title, description, dueDate, workspaceName } = req.body;
+    if (!title || !description || !workspaceName || !dueDate) {
       return res
         .status(400)
         .json({ message: "Title and description are required" });
@@ -17,12 +17,13 @@ export const createTodo = async (req: Request, res: Response) => {
       title,
       description,
       workspaceName,
+      dueDate,
     });
     if (!todo) {
-      return res.status(500).json({ message: "Failed to create todo" });
+      return res.status(500).json({ message: "Failed to Create Todo" });
     }
 
-    res.status(201).json({ message: "Todo created successfully" });
+    res.status(201).json({ message: "Created successfully", todo });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
@@ -42,23 +43,24 @@ export const getTodos = async (req: Request, res: Response) => {
 
 export const updateTodo = async (req: Request, res: Response) => {
   try {
-    const { title, description, status, todoId } = req.body;
-    if (!title || !description) {
-      return res
-        .status(400)
-        .json({ message: "Title and description are required" });
-    }
+    const { todoId } = req.params;
+    const { title, description, status } = req.body;
 
-    const updatedTodo = await Todo.findByIdAndUpdate(todoId, {
-      title,
-      description,
-      status,
+    const updateData: { [key: string]: any } = {};
+    if (title) updateData.title = title;
+    if (description) updateData.description = description;
+    if (status) updateData.status = status;
+
+    const updatedTodo = await Todo.findByIdAndUpdate(todoId, updateData, {
+      new: true,
     });
     if (!updatedTodo) {
       return res.status(404).json({ message: "Todo not found" });
     }
 
-    res.status(200).json({ message: "Updated successfully" });
+    res
+      .status(200)
+      .json({ message: "Updated successfully", todo: updatedTodo });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });

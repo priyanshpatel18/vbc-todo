@@ -28,9 +28,9 @@ const TodoSchema = new Schema({
             message: "Invalid status",
         },
     },
-    createdAt: {
+    dueDate: {
         type: Date,
-        default: Date.now(),
+        required: true,
     },
 });
 export default model("Todo", TodoSchema);

@@ -1,17 +1,38 @@
-import { FormEvent, useState } from "react";
+import { isAxiosError } from "axios";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ZodError } from "zod";
+import apiClient from "../apiClient/apiClient";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { loginSchema } from "../schemas/schema";
-import { ZodError } from "zod";
-import axios, { isAxiosError } from "axios";
 import { Store } from "../store/store";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const redirect = useNavigate();
   const store = Store();
+
+  useEffect(() => {
+    async function getUser() {
+      try {
+        await apiClient.get("/user").then((res) => {
+          if (res.data) {
+            store.setUser(res.data);
+            redirect("/profile");
+          } else {
+            store.setUser(null);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getUser();
+  }, [redirect, store, store.user]);
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -24,15 +45,21 @@ export default function LoginPage() {
         password,
       });
 
-      await axios
-        .post("/api/v1/user/login", verifiedUser)
-        .then((res) => {
-          console.log(res);
+      await apiClient
+        .post("/user/login", verifiedUser)
+        .then(async (res) => {
+          if (res.status === 200) {
+            await apiClient.get("/user").then((res) => {
+              store.setUser(res.data);
+            });
+          }
+          toast.success(res.data.message);
           redirect("/profile");
         })
         .catch((err) => {
           if (isAxiosError(err)) {
-            console.log(err.message);
+            toast.error(err.response?.data.message);
+          } else {
             console.log(err);
           }
         })
@@ -42,7 +69,7 @@ export default function LoginPage() {
     } catch (error) {
       store.setIsLoading(false);
       if (error instanceof ZodError) {
-        console.log(error.errors[0].message);
+        toast.error(error.errors[0].message);
       }
     }
   }

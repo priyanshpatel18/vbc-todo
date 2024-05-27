@@ -1,11 +1,16 @@
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { motion } from "framer-motion";
 import { Store } from "../store/store";
 
 export default function LandingPage() {
   const redirect = useNavigate();
   const store = Store();
+
+  useEffect(() => {
+    store.getUser(redirect, "/");
+  }, []);
 
   return (
     <motion.div

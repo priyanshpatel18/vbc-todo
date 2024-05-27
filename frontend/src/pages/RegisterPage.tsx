@@ -1,11 +1,13 @@
-import { FormEvent, useState } from "react";
+import { isAxiosError } from "axios";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ZodError } from "zod";
+import apiClient from "../apiClient/apiClient";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { registerSchema } from "../schemas/schema";
-import { ZodError } from "zod";
-import axios, { isAxiosError } from "axios";
 import { Store } from "../store/store";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
   const [displayName, setDisplayName] = useState("");
@@ -13,6 +15,19 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const redirect = useNavigate();
   const store = Store();
+
+  useEffect(() => {
+    (async function getUser() {
+      await apiClient.get("/user").then((res) => {
+        if (res.data) {
+          store.setUser(res.data);
+          redirect("/profile");
+        } else {
+          store.setUser(null);
+        }
+      });
+    })();
+  }, [redirect, store, store.user]);
 
   async function handleRegister(e: FormEvent) {
     e.preventDefault();
@@ -26,16 +41,16 @@ export default function RegisterPage() {
         password,
       });
 
-      await axios
-        .post("/api/v1/user/register", verifiedUser)
+      await apiClient
+        .post("/user/register", verifiedUser)
         .then((res) => {
-          console.log(res);
-          redirect("/login");
+          redirect("/");
+          toast.success(res.data.message);
         })
         .catch((err) => {
           if (isAxiosError(err)) {
             {
-              console.log(err.message);
+              toast.error(err.response?.data.message);
             }
             console.log(err);
           }
@@ -47,7 +62,7 @@ export default function RegisterPage() {
       store.setIsLoading(false);
 
       if (error instanceof ZodError) {
-        console.log(error.errors[0].message);
+        toast.error(error.errors[0].message);
       }
     }
   }
